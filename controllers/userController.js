@@ -1,6 +1,6 @@
 let bcrypt = require('bcryptjs')
 let jwt = require('jsonwebtoken')
-const userModel = require("../models/user")
+const userModel = require("../models/userModel")
 const { raw } = require('express')
 //this is for the registration
 let registerController = async (req, res, next) => {

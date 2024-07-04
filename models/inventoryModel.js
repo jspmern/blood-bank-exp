@@ -16,7 +16,7 @@ let inventorySchema = new mongoose.Schema({
     },
     organization: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'origanization',
+        ref: 'users',
         required: [true, 'Organization is required *']
     },
     hospital: {
@@ -34,4 +34,4 @@ let inventorySchema = new mongoose.Schema({
         }
     }
 }, { timestamps: true })
-module.exports = mongoose.models('inventory', inventorySchema)
+module.exports = mongoose.model('inventory', inventorySchema)

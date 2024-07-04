@@ -7,6 +7,7 @@ let colors = require('colors')
 let morgan = require('morgan')
 const databaseConnection = require('./config/db')
 const route = require('./routes/auth')
+const inventoryRoute = require('./routes/inventroyRoute')
 //configration of dotenv
 dotenv.config()
 //app-level middlware
@@ -18,6 +19,7 @@ app.use(morgan('dev'))
 databaseConnection()
 //route-level middlware
 app.use('/auth/v1', route)
+app.use('/inventory/v1', inventoryRoute)
 //PORT
 let PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
