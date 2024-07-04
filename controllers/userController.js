@@ -32,17 +32,11 @@ let registerController = async (req, res, next) => {
 //this is for login and genrating token
 let loginController = async (req, res, next) => {
     try {
-<<<<<<< HEAD
         if (!req.body.email || !req.body.password || !req.body.role) return res.status(401).send({ message: "All fields are required *" })
         let findData = await userModel.findOne({ email: req.body.email })
         if (!findData) return res.status(400).send({ message: "Either email or password is invalid", success: false })
         //match-role
         if (findData.role != req.body.role) throw new Error('Invalid Account')
-=======
-        if (!req.body.email || !req.body.password) return res.status(401).send({ message: "All fields are required *" })
-        let findData = await userModel.findOne({ email: req.body.email })
-        if (!findData) return res.status(400).send({ message: "Either email or password is invalid", success: false })
->>>>>>> 6799d0eca0c64ea4dc9d3dddea99b5e37d21b560
         //compare password
         let comparePassword = await bcrypt.compare(req.body.password, findData.password)
         if (!comparePassword) return res.status(400).send({ message: "Either email or password is invalid", success: false })
