@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import InputType from './InputType'
 import { NavLink } from 'react-router-dom'
+import { handleLoginController, handleRegistrationController } from '../../../services/authServices'
 
 function Form({ submitText, formTitle, formType }) {
     let [email, setEmail] = useState('')
@@ -11,6 +12,12 @@ function Form({ submitText, formTitle, formType }) {
     let [address, setAddress] = useState('')
     let [hospitalName, setHospitalName] = useState('')
     let [originazation, setOriginazation] = useState('')
+    //this is for form submit Handler
+    function formSubmitHandler(e) {
+        if (formType == "login") return handleLoginController(e,email,password,role)
+        else if (formType == "register") return handleRegistrationController(e,email,password,name,role,phone,address,hospitalName,originazation)
+
+    }
     return (
 
         <form>
@@ -77,7 +84,7 @@ function Form({ submitText, formTitle, formType }) {
             {formType === "login" && <> Not registered yet ? Register <NavLink to="/register">Here !</NavLink></>}
             {formType === "register" && <>  Already Register ?  Login <NavLink to="/login">Here !</NavLink></>}
             <br />
-            <button type="submit" className="btn btn-primary">{submitText}</button>
+            <button type="submit" className="btn btn-primary" onClick={formSubmitHandler}>{submitText}</button>
         </form>
     )
 }
