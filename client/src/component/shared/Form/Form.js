@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import InputType from './InputType'
+import { NavLink } from 'react-router-dom'
 
 function Form({ submitText, formTitle, formType }) {
     let [email, setEmail] = useState('')
@@ -73,6 +74,9 @@ function Form({ submitText, formTitle, formType }) {
 
                 }
             })()}
+            {formType === "login" && <> Not registered yet ? Register <NavLink to="/register">Here !</NavLink></>}
+            {formType === "register" && <>  Already Register ?  Login <NavLink to="/login">Here !</NavLink></>}
+            <br />
             <button type="submit" className="btn btn-primary">{submitText}</button>
         </form>
     )
