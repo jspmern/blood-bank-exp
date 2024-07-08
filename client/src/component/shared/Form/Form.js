@@ -11,11 +11,11 @@ function Form({ submitText, formTitle, formType }) {
     let [phone, setPhone] = useState('')
     let [address, setAddress] = useState('')
     let [hospitalName, setHospitalName] = useState('')
-    let [originazation, setOriginazation] = useState('')
+    let [originazationName, setOriginazationName] = useState('')
     //this is for form submit Handler
     function formSubmitHandler(e) {
-        if (formType == "login") return handleLoginController(e,email,password,role)
-        else if (formType == "register") return handleRegistrationController(e,email,password,name,role,phone,address,hospitalName,originazation)
+        if (formType == "login") return handleLoginController(e, email, password, role)
+        else if (formType == "register") return handleRegistrationController(e, email, password, name, role, phone, address, hospitalName, originazationName)
 
     }
     return (
@@ -65,7 +65,7 @@ function Form({ submitText, formTitle, formType }) {
                                     <InputType inputType="text" labelText="Hospital Name" value={hospitalName} onChange={(e) => setHospitalName(e.target.value)} name="hospitalName" labelFor="hospitalName" />)}
                                 {/* {originazationName} */}
                                 {(role === "originazation") && (
-                                    <InputType inputType="text" labelText="Originazation Name" value={originazation} onChange={(e) => setOriginazation(e.target.value)} name="originazation" labelFor="originazation" />)}
+                                    <InputType inputType="text" labelText="Originazation Name" value={originazationName} onChange={(e) => setOriginazationName(e.target.value)} name="originazation" labelFor="originazation" />)}
                                 {/* email */}
                                 <InputType inputType="text" labelText="Email" value={email} onChange={(e) => setEmail(e.target.value)} name="email" labelFor="email" />
                                 {/* password */}
