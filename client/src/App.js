@@ -6,16 +6,25 @@ import Register from './pages/auth/Register';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PublicRoute from './component/Route/PublicRoute';
+import PrivateRoute from './component/Route/PrivateRoute';
 function App() {
   return (
     <>
       <ToastContainer />
       <Routes>
-        <Route path='/' element={<HomePage />} />
+        <Route path='/' element={
+          <PrivateRoute>
+            <HomePage />
+          </PrivateRoute>
+
+        } />
 
         <Route path='/login' element={
           <PublicRoute>
+
             <Login />
+
+
           </PublicRoute>
 
         } />

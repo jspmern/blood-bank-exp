@@ -9,6 +9,7 @@ export let userLogin = createAsyncThunk(
             if (data.success) {
                 if (data.token) {
                     localStorage.setItem('blood-token', data.token)
+                    window.location.replace('/')
                     toast.success(data.message)
 
                 }
@@ -33,6 +34,8 @@ export let userRegister = createAsyncThunk('auth/register', async ({ email, pass
         let { data } = await API.post('/auth/v1/register', { email, password, name, role, phone, address, hospitalName, originazationName })
         if (data.success) {
             toast.success(data.message)
+            window.location.replace('/login')
+
         }
     }
     catch (error) {
@@ -47,4 +50,21 @@ export let userRegister = createAsyncThunk('auth/register', async ({ email, pass
     }
 
 
+})
+//this is for the get-cureent-user
+export let getCurrenUser = createAsyncThunk('auth/current-user', async ({ rejectWithValue }) => {
+    try {
+        let res = await API.get('/auth/v1/current-user')
+        if (res.data) {
+            return res?.data;
+        }
+    }
+    catch (error) {
+        if (error.response && error.response.data.message) {
+            return rejectWithValue(error.response.data.message)
+        }
+        else {
+            return rejectWithValue(error.response)
+        }
+    }
 })
