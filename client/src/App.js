@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PublicRoute from './component/Route/PublicRoute';
 import PrivateRoute from './component/Route/PrivateRoute';
+import Layout from './component/shared/Layout/Layout';
 function App() {
   return (
     <>
@@ -14,7 +15,9 @@ function App() {
       <Routes>
         <Route path='/' element={
           <PrivateRoute>
-            <HomePage />
+            <Layout>
+              <HomePage />
+            </Layout>
           </PrivateRoute>
 
         } />

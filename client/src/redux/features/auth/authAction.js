@@ -9,8 +9,8 @@ export let userLogin = createAsyncThunk(
             if (data.success) {
                 if (data.token) {
                     localStorage.setItem('blood-token', data.token)
-                    window.location.replace('/')
                     toast.success(data.message)
+                    window.location.replace('/')
 
                 }
                 return data
