@@ -1,22 +1,25 @@
-import React from 'react'
-import { userMenu } from './Menus/userMenu'
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { userMenu } from "./Menus/userMenu";
+import { NavLink, useLocation } from "react-router-dom";
+import "../../../style/Layout.css";
 
 function Sidebar() {
-    return (
-        <>
-            {
-                userMenu.map((item) => {
-                    return (
-                        <div>
-                            <i className={item.icon}></i>
-                            <NavLink to={item.path}>{item.name}</NavLink>
-                        </div>
-                    )
-                })
-            }</>
-
-    )
+  let location = useLocation();
+  return (
+    <>
+      {userMenu.map((item) => {
+        let isActive = location.pathname === item.path;
+        return (
+          <div className={isActive && "active-link"}>
+            <i className={`${item.icon} menu-logo`}></i>
+            <NavLink to={item.path} className="menu-nav">
+              {item.name}
+            </NavLink>
+          </div>
+        );
+      })}
+    </>
+  );
 }
 
-export default Sidebar
+export default Sidebar;

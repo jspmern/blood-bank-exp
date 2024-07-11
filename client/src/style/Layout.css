@@ -1,0 +1,16 @@
+.sidebar {
+  background-color: grey;
+}
+.active-link {
+  background-color: white;
+  padding: 10px;
+  margin-top: 25px;
+}
+.menu-nav {
+  text-decoration: none;
+  padding: 10px;
+  color: black;
+}
+.menu-logo {
+  margin: 5px;
+}
