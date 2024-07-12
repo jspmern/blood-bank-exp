@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaPlus } from "react-icons/fa";
 import Model from '../component/shared/Model/Model';
 import API from '../services/API';
-
+import moment from 'moment'
 function HomePage() {
     let [data, setData] = useState([])
     async function getInventory() {
@@ -32,7 +32,7 @@ function HomePage() {
                             <tr>
                                 <th scope="col">Blood Group</th>
                                 <th scope="col">Inventory Type</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">Quantity (ML) </th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Time & Date</th>
 
@@ -45,7 +45,7 @@ function HomePage() {
                                     <td>{item?.inventoryType}</td>
                                     <td>{item?.quantity}</td>
                                     <td>{item?.email}</td>
-                                    <td>{item?.createAt}</td>
+                                    <td>{moment(item?.createdAt).startOf('hour').fromNow()}</td>
 
                                 </tr>
                             })}
