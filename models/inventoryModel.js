@@ -29,9 +29,9 @@ let inventorySchema = new mongoose.Schema({
     donar: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-        required: function () {
-            return this.inventoryType === "in"
-        }
+        // required: function () {
+        //     return this.inventoryType === "in"
+        // }
     }
 }, { timestamps: true })
 module.exports = mongoose.model('inventory', inventorySchema)

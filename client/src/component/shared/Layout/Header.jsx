@@ -21,8 +21,9 @@ function Header() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav m-auto">
-                        <li className="nav-item">
+                        <li className="nav-item  d-flex">
                             <NavLink className="nav-link active mx-3" aria-current="page">{user?.name || user?.hospitalName || user?.originazationName}</NavLink>
+                            <h6><span class="badge bg-secondary">{user?.role}</span></h6>
                         </li>
 
                         <li className="nav-item mx-3">

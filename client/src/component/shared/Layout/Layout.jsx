@@ -2,7 +2,6 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
-
 function Layout({ children }) {
     return (
         <div className="container-fluid">
@@ -12,8 +11,8 @@ function Layout({ children }) {
                 </div>
 
             </div>
-            <div className="row" style={{ minHeight: "80vh", width: "100%" }}>
-                <div className="col-md-3">
+            <div className="row g-0" style={{ minHeight: "80vh", width: "100%" }}>
+                <div className="col-md-3" style={{ backgroundColor: "grey" }} >
                     <Sidebar />
                 </div>
                 <div className="col-md-9">
