@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const inventoryModel = require("../models/inventoryModel");
 const userModel = require("../models/userModel")
 //this is for the create-inventory
@@ -8,11 +9,30 @@ let createInventoryController = async (req, res, next) => {
         let user = await userModel.findOne({ email })
         if (!user) throw new Error('User is Not found')
         // if (user.role === 'doner' && inventoryType !== "in") throw new Error("Not a User Account")
-        if (user.role == "hospital" && inventoryType !== "out") throw new Error('Not a Hospital Account')
+        // if (user.role == "hospital" && inventoryType !== "out") throw new Error('Not a Hospital Account')
+        if (req.body.inventoryType == "out") {
+            const requestedBloodGroup = req.body.bloodGroup;
+            const requestedQuantityOfBlood = req.body.quantity;
+            let organization = new mongoose.Types.ObjectId(req.userId)
+            let totalInOfRequestBlood = await inventoryModel.aggregate([{
+                $match: {
+                    organization,
+                    bloodGroup: requestedBloodGroup,
+                    inventoryType: "in"
+                }
+            }, { $group: { _id: "$bloodGroup", total: { $sum: "$quantity" } } }])
+            console.log('fjkdsfjsdlkfsdlfjs', totalInOfRequestBlood)
+            req.body.hospital = user?._id
+        }
+        else {
+            req.body.donar = user?._id
+        }
+
         //save inventory
-        let inventory = new inventoryModel(req.body)
-        await inventory.save()
-        res.status(201).send({ message: "Inventory created successfully", success: true, inventory })
+        console.log('helllo i am body', req.body)
+        //let inventory = new inventoryModel(req.body)
+        //await inventory.save()
+        res.status(201).send({ message: "Inventory created successfully", success: true })
     } catch (error) {
         console.log(error)
         res.status(500).send({ message: "somthing wrong while creating inventory", success: false, error })
