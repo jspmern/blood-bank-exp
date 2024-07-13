@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const inventoryModel = require("../models/inventoryModel");
 const userModel = require("../models/userModel")
 //this is for the create-inventory
+//*****
 let createInventoryController = async (req, res, next) => {
     try {
         let { email, inventoryType } = req.body;
@@ -21,17 +22,27 @@ let createInventoryController = async (req, res, next) => {
                     inventoryType: "in"
                 }
             }, { $group: { _id: "$bloodGroup", total: { $sum: "$quantity" } } }])
-            console.log('fjkdsfjsdlkfsdlfjs', totalInOfRequestBlood)
+            const totalIn = totalInOfRequestBlood[0].total || 0
+            let totalOutOfRequestBlood = await inventoryModel.aggregate([{
+                $match: {
+                    bloodGroup: requestedBloodGroup,
+                    organization,
+                    inventoryType: "out"
+                }
+            }, { $group: { _id: "$bloodGroup", total: { $sum: "$quantity" } } }])
+            const totalOut = totalOutOfRequestBlood[0]?.total || 0
+            //in and out calculation
+            const availableQuantityOfBlood = totalIn - totalOut
+            if (!(availableQuantityOfBlood > requestedQuantityOfBlood))
+                return res.status(400).send({ success: false, message: `Only ${availableQuantityOfBlood}ML of ${requestedBloodGroup} is Available` })
             req.body.hospital = user?._id
         }
         else {
             req.body.donar = user?._id
         }
-
         //save inventory
-        console.log('helllo i am body', req.body)
-        //let inventory = new inventoryModel(req.body)
-        //await inventory.save()
+        let inventory = new inventoryModel(req.body)
+        await inventory.save()
         res.status(201).send({ message: "Inventory created successfully", success: true })
     } catch (error) {
         console.log(error)
@@ -53,4 +64,38 @@ let getInventoryController = async (req, res, next) => {
         res.status(500).send({ message: "somthing wrong while getting inventory", success: false })
     }
 }
-module.exports = { createInventoryController, getInventoryController }
+
+//this Get Doner Records
+let getDonerController = async (req, res, next) => {
+    try {
+        const organization = req.userId;
+        const donerId = await inventoryModel.distinct("donar", { organization })
+        const doners = await userModel.find({ _id: { $in: donerId } })
+        res.send({
+            success: true,
+            message: "Doner Records fetched Successfully",
+            doners
+        })
+    }
+    catch (e) {
+        return res.status(500).send({ success: false, message: "Error in Doner record", e })
+    }
+}
+//Get Hospital Records
+let getHospitalController = async (req, res, next) => {
+    try {
+        let organization = req.userId
+        let hospitalId = await inventoryModel.distinct("hospital", { organization })
+        let hospitals = await userModel.find({ _id: { $in: hospitalId } })
+        console.log(hospitals)
+        res.send({
+            success: true,
+            message: "Hospitals Records fetched Successfully",
+            hospitals
+        })
+    }
+    catch (e) {
+        return res.status(500).send({ success: false, message: "Error in Doner record", e })
+    }
+}
+module.exports = { createInventoryController, getInventoryController, getDonerController, getHospitalController }

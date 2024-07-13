@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import PublicRoute from './component/Route/PublicRoute';
 import PrivateRoute from './component/Route/PrivateRoute';
 import Layout from './component/shared/Layout/Layout';
+import Donar from './pages/Dashboard/Donar';
+import Hospitals from './pages/Dashboard/Hospitals';
 function App() {
   return (
     <>
@@ -17,6 +19,22 @@ function App() {
           <PrivateRoute>
             <Layout>
               <HomePage />
+            </Layout>
+          </PrivateRoute>
+
+        } />
+        <Route path='/doner' element={
+          <PrivateRoute>
+            <Layout>
+              <Donar />
+            </Layout>
+          </PrivateRoute>
+
+        } />
+        <Route path='/hospital' element={
+          <PrivateRoute>
+            <Layout>
+              <Hospitals />
             </Layout>
           </PrivateRoute>
 
