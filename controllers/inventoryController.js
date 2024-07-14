@@ -130,9 +130,30 @@ let getHospitalController = async (req, res, next) => {
       .send({ success: false, message: "Error in Doner record", e });
   }
 };
+//Get Organization Records
+let getOrganizationController = async (req, res, next) => {
+  try {
+    const donar = req.userId;
+    const orgId = await inventoryModel.distinct("organisation", { donar });
+    let organizations = await userModel.find({ _id: { $in: orgId } });
+    res.status(200).send({
+      message: "Data Fetched Successfully",
+      success: true,
+      organizations,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Falid to Fetch Organization Records *",
+      success: false,
+      error,
+    });
+  }
+};
 module.exports = {
   createInventoryController,
   getInventoryController,
   getDonerController,
   getHospitalController,
+  getOrganizationController,
 };
