@@ -11,6 +11,11 @@ import Layout from "./component/shared/Layout/Layout";
 import Donar from "./pages/Dashboard/Donar";
 import Hospitals from "./pages/Dashboard/Hospitals";
 import Organization from "./pages/Dashboard/Organization";
+import Donation from "./pages/Dashboard/Donation";
+import Consumer from "./pages/Dashboard/Consumer";
+import GetDonerList from "./pages/Dashboard/Admin/GetDonerList";
+import GetOrgList from "./pages/Dashboard/Admin/GetOrgList";
+import GetHospitalList from "./pages/Dashboard/Admin/GetHospitalList";
 function App() {
   return (
     <>
@@ -22,6 +27,61 @@ function App() {
             <PrivateRoute>
               <Layout>
                 <HomePage />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/donar-list"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <GetDonerList />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/org-list"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <GetOrgList />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/hospital-list"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <GetHospitalList />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+
+
+
+
+
+        <Route
+          path="/donation"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Donation />
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/consumer"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Consumer />
               </Layout>
             </PrivateRoute>
           }

@@ -1,6 +1,6 @@
 let express = require('express')
 const authorizeUser = require('../middlware/authMiddlware')
-const { createInventoryController, getInventoryController, getDonerController, getHospitalController, getOrgnazationControllerForDoner, getOrgnazationControllerForHospital } = require('../controllers/inventoryController')
+const { createInventoryController, getInventoryController, getDonerController, getHospitalController, getOrgnazationControllerForDoner, getOrgnazationControllerForHospital, getConsumerAndDonationDataController, } = require('../controllers/inventoryController')
 let inventoryRoute = express.Router()
 //create -inventory || POST
 inventoryRoute.post('/create-inventory', authorizeUser, createInventoryController)
@@ -14,4 +14,6 @@ inventoryRoute.get('/get-hospital', authorizeUser, getHospitalController)
 inventoryRoute.get('/get-org-doner', authorizeUser, getOrgnazationControllerForDoner)
 //get -org-hospital||get
 inventoryRoute.get('/get-org-hospital', authorizeUser, getOrgnazationControllerForHospital)
+//get-consumer and donation || POST
+inventoryRoute.post('/get-consumer-donation', authorizeUser, getConsumerAndDonationDataController)
 module.exports = inventoryRoute

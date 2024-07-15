@@ -164,11 +164,25 @@ let getOrgnazationControllerForHospital = async (req, res, next) => {
         })
     }
 }
+
+//get consumer and donation data
+let getConsumerAndDonationDataController = async (req, res, next) => {
+    try {
+        let { filter } = req.body
+        let details = await inventoryModel.find(filter).populate("donar").populate("hospital").populate("organization")
+        res.status(200).send({ message: "Data Fetched Successfully", details, success: true })
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ message: "Somthing wrong while fetching the data", success: false, err })
+    }
+}
 module.exports = {
     createInventoryController,
     getInventoryController,
     getDonerController,
     getHospitalController,
     getOrgnazationControllerForDoner,
-    getOrgnazationControllerForHospital
+    getOrgnazationControllerForHospital,
+    getConsumerAndDonationDataController
 };
