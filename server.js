@@ -1,27 +1,29 @@
 //create Server
-let express = require('express')
-let app = express()
-let dotenv = require('dotenv')
-let cors = require('cors')
-let colors = require('colors')
-let morgan = require('morgan')
-const databaseConnection = require('./config/db')
-const route = require('./routes/auth')
-const inventoryRoute = require('./routes/inventroyRoute')
+let express = require("express");
+let app = express();
+let dotenv = require("dotenv");
+let cors = require("cors");
+let colors = require("colors");
+let morgan = require("morgan");
+const databaseConnection = require("./config/db");
+const route = require("./routes/auth");
+const inventoryRoute = require("./routes/inventroyRoute");
+const adminRoute = require("./routes/aminRoute");
 //configration of dotenv
-dotenv.config()
+dotenv.config();
 //app-level middlware
-app.use(express.json())
+app.use(express.json());
 //third party middlware
-app.use(cors())
-app.use(morgan('dev'))
+app.use(cors());
+app.use(morgan("dev"));
 //database connection
-databaseConnection()
+databaseConnection();
 //route-level middlware
-app.use('/auth/v1', route)
-app.use('/inventory/v1', inventoryRoute)
+app.use("/auth/v1", route);
+app.use("/inventory/v1", inventoryRoute);
+app.use("/admin/v1", adminRoute);
 //PORT
-let PORT = process.env.PORT || 5000
+let PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is Running At  ${PORT}`.bgMagenta.white)
-})
+  console.log(`Server is Running At  ${PORT}`.bgMagenta.white);
+});
