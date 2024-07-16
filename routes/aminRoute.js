@@ -5,6 +5,7 @@ const {
   donarListController,
   HospitalListController,
   organizationListController,
+  deleteAdminController,
 } = require("../controllers/adminController");
 let adminRoute = express.Router();
 //get-doner ||get
@@ -27,6 +28,14 @@ adminRoute.get(
   authorizeUser,
   adminMiddlware,
   organizationListController
+);
+
+//delete-doner/org/hospital //delete
+adminRoute.delete(
+  "/admin-delete/:id",
+  authorizeUser,
+  adminMiddlware,
+  deleteAdminController
 );
 
 module.exports = adminRoute;

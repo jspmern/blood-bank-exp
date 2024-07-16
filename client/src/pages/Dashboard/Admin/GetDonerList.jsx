@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../../services/API";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 function GetDonerList() {
   let [data, setData] = useState([]);
@@ -10,6 +11,23 @@ function GetDonerList() {
       setData(data.donars);
     } catch (e) {
       console.log(e);
+    }
+  }
+  //this is for the delete item
+  async function deleteHandler(id) {
+    try {
+      let { data } = await API.delete(`/admin/v1/admin-delete/${id}`);
+      if (data.success) {
+        toast.success("data deleted successfully");
+        window.location.reload();
+      } else {
+        {
+          toast.danger("somthing wrong");
+          window.location.reload();
+        }
+      }
+    } catch (err) {
+      console.log("somthing wrong");
     }
   }
   useEffect(() => {
@@ -44,7 +62,14 @@ function GetDonerList() {
                         <button className="btn btn-primary">edit</button>
                       </td>
                       <td>
-                        <button className="btn btn-danger">delete</button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => {
+                            deleteHandler(item._id);
+                          }}
+                        >
+                          delete
+                        </button>
                       </td>
                     </tr>
                   );

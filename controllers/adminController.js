@@ -50,8 +50,30 @@ let organizationListController = async (req, res, next) => {
     res.status(500).send({ message: "Somthing wrong!", success: false, error });
   }
 };
+//delete handler for org,hospital,donar
+let deleteAdminController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await userModel.findByIdAndDelete(id);
+    if (result) {
+      res
+        .status(200)
+        .send({
+          message: "Document deleted successfully",
+          data: result,
+          success: true,
+        });
+    } else {
+      res.status(404).send({ message: "Document not found", success: false });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "Somthing wrong ! ", err, success: false });
+  }
+};
 module.exports = {
   donarListController,
   HospitalListController,
   organizationListController,
+  deleteAdminController,
 };
