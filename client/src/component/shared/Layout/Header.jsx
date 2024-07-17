@@ -1,10 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 function Header() {
   let { user } = useSelector((item) => item.auth);
   let navigate = useNavigate();
+  let location = useLocation();
   //this is for logout
   function logoutHandler() {
     localStorage.clear("blood-token");
@@ -37,6 +38,28 @@ function Header() {
               <h6>
                 <span class="badge bg-secondary">{user?.role}</span>
               </h6>
+            </li>
+
+            <li className="nav-item  d-flex">
+              {user?.role === "originazation" && location.pathname == "/" && (
+                <NavLink
+                  className="nav-link active mx-3"
+                  aria-current="page"
+                  to="/analytics"
+                >
+                  Analytics
+                </NavLink>
+              )}
+              {user?.role == "originazation" &&
+                location.pathname == "/analytics" && (
+                  <NavLink
+                    className="nav-link active mx-3"
+                    aria-current="page"
+                    to="/"
+                  >
+                    Home
+                  </NavLink>
+                )}
             </li>
 
             <li className="nav-item mx-3">

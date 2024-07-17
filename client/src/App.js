@@ -17,6 +17,7 @@ import GetDonerList from "./pages/Dashboard/Admin/GetDonerList";
 import GetOrgList from "./pages/Dashboard/Admin/GetOrgList";
 import GetHospitalList from "./pages/Dashboard/Admin/GetHospitalList";
 import HomeAdmin from "./pages/Dashboard/Admin/HomeAdmin";
+import Analytics from "./pages/Analytics";
 function App() {
   return (
     <>
@@ -29,6 +30,14 @@ function App() {
               <Layout>
                 <HomePage />
               </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <Analytics />
             </PrivateRoute>
           }
         />
