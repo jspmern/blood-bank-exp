@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputType from "../Form/InputType";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -10,21 +10,24 @@ function Model() {
   let [email, setEmail] = useState("");
   let [quantity, setQuantity] = useState(0);
   let [bloodType, setBLoodType] = useState("");
+  let [hospitalAndDonarData, setHospitalAndDonarData] = useState([]);
   //this is for handling model form
   async function createModelHandler() {
     try {
-      if (!bloodType || !quantity)
+      if (!bloodType || !quantity || !email) {
         return toast.error("All Field are Requried*");
-      let { data } = await API.post("/inventory/v1/create-inventory", {
-        email,
-        inventoryType,
-        organization: user?._id,
-        quantity,
-        bloodGroup: bloodType,
-      });
-      if (data.success) {
-        toast.success(data.message);
-        window.location.reload();
+      } else {
+        let { data } = await API.post("/inventory/v1/create-inventory", {
+          email,
+          inventoryType,
+          organization: user?._id,
+          quantity,
+          bloodGroup: bloodType,
+        });
+        if (data.success) {
+          toast.success(data.message);
+          window.location.reload();
+        }
       }
     } catch (e) {
       console.log(e);
@@ -32,6 +35,24 @@ function Model() {
       //window.location.reload()
     }
   }
+
+  //this is for the getting hospital and donar name for checkbox
+  useEffect(() => {
+    async function getData() {
+      try {
+        let url =
+          inventoryType == "in"
+            ? "/inventory/v1/get-donar-name"
+            : "/inventory/v1/get-hospital-name";
+        let { data } = await API.get(url);
+        setHospitalAndDonarData(data.list);
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+    }
+    getData();
+  }, [inventoryType]);
   return (
     <div
       className="modal fade"
@@ -93,7 +114,28 @@ function Model() {
             </div>
             <br />
             {/* //this is for the email */}
-            <InputType
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            >
+              <option>
+                Select
+                {inventoryType == "in" ? " Donar Email" : " Hospital Name"}
+              </option>
+              {hospitalAndDonarData.length > 0 &&
+                hospitalAndDonarData?.map((item) => {
+                  return (
+                    <option value={item.email}>
+                      {item.hospitalName || item.name}
+                    </option>
+                  );
+                })}
+            </select>
+
+            {/* <InputType
               labelFor="email"
               labelText="Email"
               inputType="email"
@@ -102,7 +144,7 @@ function Model() {
                 setEmail(e.target.value);
               }}
               name="email"
-            />
+            /> */}
             {/* this is for quantity */}
             <br />
             {/* //selecting blood group */}
@@ -114,7 +156,7 @@ function Model() {
                 setBLoodType(e.target.value);
               }}
             >
-              <option>Open this select menu</option>
+              <option>Select Blood Type</option>
               <option value="O+">O+</option>
               <option value="O-">O-</option>
               <option value="AB+">AB+</option>

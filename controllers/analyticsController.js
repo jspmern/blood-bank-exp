@@ -44,7 +44,6 @@ let analyticsController = async (req, res, next) => {
         //calculate blood
         const availableBlood =
           (totalIn[0]?.total || 0) - (totalOut[0]?.total || 0);
-        console.log("availableBlood", availableBlood);
         //push data
         bloodGroupData.push({
           bloodGroup: blood,
